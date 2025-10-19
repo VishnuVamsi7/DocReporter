@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  airflow-webserver:
+    image: apache/airflow:2.8.1
+    container_name: airflow_webserver
+    command: webserver
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./documents:/app/documents
+      - /var/run/docker.sock:/var/run/docker.sock # <-- Allows Airflow to talk to Docker
+    environment:
+      - AIRFLOW__CORE__LOAD_EXAMPLES=false
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+    restart: always
+
+  airflow-scheduler:
+    image: apache/airflow:2.8.1
+    container_name: airflow_scheduler
+    command: scheduler
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./documents:/app/documents
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - AIRFLOW__CORE__LOAD_EXAMPLES=false
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+    restart: always
+
+volumes:
+  dags:
+  documents:

@@ -1,0 +1,8 @@
+# Ignore environment files with secrets
+.env
+
+# Ignore all input and output documents
+/documents/
+
+# Optional: Ignore VS Code settings
+.vscode/

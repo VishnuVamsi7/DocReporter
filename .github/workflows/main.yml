@@ -1,0 +1,44 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches:
+      - main  # Runs every time you push to the 'main' branch
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v4
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and push process-app
+      uses: docker/build-push-action@v5
+      with:
+        context: ./process_app
+        file: ./process_app/Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/process-app:latest
+
+    - name: Build and push analyst-app
+      uses: docker/build-push-action@v5
+      with:
+        context: ./analyst_app
+        file: ./analyst_app/Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/analyst-app:latest
+
+    - name: Build and push report-app
+      uses: docker/build-push-action@v5
+      with:
+        context: ./report_app
+        file: ./report_app/Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/report-app:latest

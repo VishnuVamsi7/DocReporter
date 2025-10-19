@@ -1,0 +1,11 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+# This step will download the embedding model into the image
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY process_pdf.py .
+
+CMD ["python", "process_pdf.py"]
