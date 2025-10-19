@@ -3,7 +3,7 @@ name: Build and Push Docker Images
 on:
   push:
     branches:
-      - main  # Runs every time you push to the 'main' branch
+      - main
 
 jobs:
   build_and_push:
@@ -16,7 +16,7 @@ jobs:
     - name: Log in to Docker Hub
       uses: docker/login-action@v3
       with:
-        username: ${{ vars.DOCKERHUB_USERNAME }}    # <-- Must say 'vars', not 'secrets'
+        username: ${{ vars.DOCKERHUB_USERNAME }}  # <-- This one is correct
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Build and push process-app
@@ -25,7 +25,7 @@ jobs:
         context: ./process_app
         file: ./process_app/Dockerfile
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/process-app:latest
+        tags: ${{ vars.DOCKERHUB_USERNAME }}/process-app:latest # <-- FIX #1
 
     - name: Build and push analyst-app
       uses: docker/build-push-action@v5
@@ -33,7 +33,7 @@ jobs:
         context: ./analyst_app
         file: ./analyst_app/Dockerfile
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/analyst-app:latest
+        tags: ${{ vars.DOCKERHUB_USERNAME }}/analyst-app:latest # <-- FIX #2
 
     - name: Build and push report-app
       uses: docker/build-push-action@v5
@@ -41,4 +41,4 @@ jobs:
         context: ./report_app
         file: ./report_app/Dockerfile
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/report-app:latest
+        tags: ${{ vars.DOCKERHUB_USERNAME }}/report-app:latest # <-- FIX #3
