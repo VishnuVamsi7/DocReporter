@@ -16,7 +16,7 @@ jobs:
     - name: Log in to Docker Hub
       uses: docker/login-action@v3
       with:
-        username: ${{ vars.DOCKERHUB_USERNAME }}
+        username: ${{ vars.DOCKERHUB_USERNAME }}    # <-- Must say 'vars', not 'secrets'
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Build and push process-app
