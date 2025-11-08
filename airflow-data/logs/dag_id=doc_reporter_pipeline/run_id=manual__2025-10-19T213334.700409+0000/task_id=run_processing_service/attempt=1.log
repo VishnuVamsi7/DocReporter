@@ -1,0 +1,41 @@
+[2025-10-19T21:33:39.079+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: doc_reporter_pipeline.run_processing_service manual__2025-10-19T21:33:34.700409+00:00 [queued]>
+[2025-10-19T21:33:39.090+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: doc_reporter_pipeline.run_processing_service manual__2025-10-19T21:33:34.700409+00:00 [queued]>
+[2025-10-19T21:33:39.090+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 1
+[2025-10-19T21:33:39.118+0000] {taskinstance.py:2191} INFO - Executing <Task(DockerOperator): run_processing_service> on 2025-10-19 21:33:34.700409+00:00
+[2025-10-19T21:33:39.122+0000] {standard_task_runner.py:60} INFO - Started process 58 to run task
+[2025-10-19T21:33:39.125+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'doc_reporter_pipeline', 'run_processing_service', 'manual__2025-10-19T21:33:34.700409+00:00', '--job-id', '7', '--raw', '--subdir', 'DAGS_FOLDER/doc_reporter_pipeline.py', '--cfg-path', '/tmp/tmp50_pyx3v']
+[2025-10-19T21:33:39.127+0000] {standard_task_runner.py:88} INFO - Job 7: Subtask run_processing_service
+[2025-10-19T21:33:39.210+0000] {task_command.py:423} INFO - Running <TaskInstance: doc_reporter_pipeline.run_processing_service manual__2025-10-19T21:33:34.700409+00:00 [running]> on host 6115073b5844
+[2025-10-19T21:33:39.322+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='doc_reporter_pipeline' AIRFLOW_CTX_TASK_ID='run_processing_service' AIRFLOW_CTX_EXECUTION_DATE='2025-10-19T21:33:34.700409+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-10-19T21:33:34.700409+00:00'
+[2025-10-19T21:33:39.365+0000] {docker.py:359} INFO - Starting docker container from image process-app:latest
+[2025-10-19T21:33:39.376+0000] {docker.py:367} WARNING - Using remote engine or docker-in-docker and mounting temporary volume from host is not supported. Falling back to `mount_tmp_dir=False` mode. You can set `mount_tmp_dir` parameter to False to disable mounting and remove the warning
+[2025-10-19T21:33:57.696+0000] {docker.py:429} INFO - Batches:   0%|          | 0/16 [00:00<?, ?it/s]
+[2025-10-19T21:33:57.700+0000] {docker.py:429} INFO - 🤖 Loading embedding model (this may take a moment)...
+✅ Embedding model loaded.
+📂 Loading PDF: /app/documents/input/sample.pdf
+
+🚀 Starting PDF indexing pipeline...
+✅ Created 493 text chunks.
+🧠 Generating 493 vectors...
+[2025-10-19T21:33:58.561+0000] {docker.py:429} INFO - Batches:   6%|▋         | 1/16 [00:00<00:12,  1.16it/s]
+[2025-10-19T21:33:59.416+0000] {docker.py:429} INFO - Batches:  12%|█▎        | 2/16 [00:01<00:12,  1.16it/s]
+[2025-10-19T21:34:00.287+0000] {docker.py:429} INFO - Batches:  19%|█▉        | 3/16 [00:02<00:11,  1.16it/s]
+[2025-10-19T21:34:01.143+0000] {docker.py:429} INFO - Batches:  25%|██▌       | 4/16 [00:03<00:10,  1.16it/s]
+[2025-10-19T21:34:02.029+0000] {docker.py:429} INFO - Batches:  31%|███▏      | 5/16 [00:04<00:09,  1.15it/s]
+[2025-10-19T21:34:02.944+0000] {docker.py:429} INFO - Batches:  38%|███▊      | 6/16 [00:05<00:08,  1.13it/s]
+[2025-10-19T21:34:03.791+0000] {docker.py:429} INFO - Batches:  44%|████▍     | 7/16 [00:06<00:07,  1.15it/s]
+[2025-10-19T21:34:04.628+0000] {docker.py:429} INFO - Batches:  50%|█████     | 8/16 [00:06<00:06,  1.16it/s]
+[2025-10-19T21:34:05.488+0000] {docker.py:429} INFO - Batches:  56%|█████▋    | 9/16 [00:07<00:06,  1.16it/s]
+[2025-10-19T21:34:06.374+0000] {docker.py:429} INFO - Batches:  62%|██████▎   | 10/16 [00:08<00:05,  1.15it/s]
+[2025-10-19T21:34:07.232+0000] {docker.py:429} INFO - Batches:  69%|██████▉   | 11/16 [00:09<00:04,  1.15it/s]
+[2025-10-19T21:34:08.064+0000] {docker.py:429} INFO - Batches:  75%|███████▌  | 12/16 [00:10<00:03,  1.17it/s]
+[2025-10-19T21:34:08.967+0000] {docker.py:429} INFO - Batches:  81%|████████▏ | 13/16 [00:11<00:02,  1.15it/s]
+[2025-10-19T21:34:09.791+0000] {docker.py:429} INFO - Batches:  88%|████████▊ | 14/16 [00:12<00:01,  1.17it/s]
+[2025-10-19T21:34:10.670+0000] {docker.py:429} INFO - Batches:  94%|█████████▍| 15/16 [00:12<00:00,  1.16it/s]
+[2025-10-19T21:34:11.026+0000] {docker.py:429} INFO - Batches: 100%|██████████| 16/16 [00:13<00:00,  1.41it/s]Batches: 100%|██████████| 16/16 [00:13<00:00,  1.20it/s]
+[2025-10-19T21:34:12.002+0000] {docker.py:429} INFO - ✅ Vector generation complete.
+
+✅ Vector database saved to: /app/documents/output/vector_database.json
+[2025-10-19T21:34:13.419+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=doc_reporter_pipeline, task_id=run_processing_service, execution_date=20251019T213334, start_date=20251019T213339, end_date=20251019T213413
+[2025-10-19T21:34:13.481+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2025-10-19T21:34:13.561+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check

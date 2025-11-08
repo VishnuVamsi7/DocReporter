@@ -1,0 +1,44 @@
+[2025-10-19T20:11:51.822+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: doc_reporter_pipeline.run_processing_service manual__2025-10-19T20:11:47.502413+00:00 [queued]>
+[2025-10-19T20:11:51.834+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: doc_reporter_pipeline.run_processing_service manual__2025-10-19T20:11:47.502413+00:00 [queued]>
+[2025-10-19T20:11:51.835+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 1
+[2025-10-19T20:11:51.873+0000] {taskinstance.py:2191} INFO - Executing <Task(DockerOperator): run_processing_service> on 2025-10-19 20:11:47.502413+00:00
+[2025-10-19T20:11:51.877+0000] {standard_task_runner.py:60} INFO - Started process 61 to run task
+[2025-10-19T20:11:51.880+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'doc_reporter_pipeline', 'run_processing_service', 'manual__2025-10-19T20:11:47.502413+00:00', '--job-id', '4', '--raw', '--subdir', 'DAGS_FOLDER/doc_reporter_pipeline.py', '--cfg-path', '/tmp/tmp7rki9lv3']
+[2025-10-19T20:11:51.882+0000] {standard_task_runner.py:88} INFO - Job 4: Subtask run_processing_service
+[2025-10-19T20:11:51.956+0000] {task_command.py:423} INFO - Running <TaskInstance: doc_reporter_pipeline.run_processing_service manual__2025-10-19T20:11:47.502413+00:00 [running]> on host 6115073b5844
+[2025-10-19T20:11:52.064+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='doc_reporter_pipeline' AIRFLOW_CTX_TASK_ID='run_processing_service' AIRFLOW_CTX_EXECUTION_DATE='2025-10-19T20:11:47.502413+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-10-19T20:11:47.502413+00:00'
+[2025-10-19T20:11:52.155+0000] {docker.py:359} INFO - Starting docker container from image process-app:latest
+[2025-10-19T20:11:52.166+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/docker/api/client.py", line 265, in _raise_for_status
+    response.raise_for_status()
+  File "/home/airflow/.local/lib/python3.8/site-packages/requests/models.py", line 1021, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: http+docker://localhost/v1.51/containers/create?name=task_process_pdf
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/docker/operators/docker.py", line 502, in execute
+    return self._run_image()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/docker/operators/docker.py", line 364, in _run_image
+    return self._run_image_with_mounts([*self.mounts, tmp_mount], add_tmp_variable=True)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/docker/operators/docker.py", line 391, in _run_image_with_mounts
+    self.container = self.cli.create_container(
+  File "/home/airflow/.local/lib/python3.8/site-packages/docker/api/container.py", line 439, in create_container
+    return self.create_container_from_config(config, name, platform)
+  File "/home/airflow/.local/lib/python3.8/site-packages/docker/api/container.py", line 456, in create_container_from_config
+    return self._result(res, True)
+  File "/home/airflow/.local/lib/python3.8/site-packages/docker/api/client.py", line 271, in _result
+    self._raise_for_status(response)
+  File "/home/airflow/.local/lib/python3.8/site-packages/docker/api/client.py", line 267, in _raise_for_status
+    raise create_api_error_from_http_exception(e) from e
+  File "/home/airflow/.local/lib/python3.8/site-packages/docker/errors.py", line 39, in create_api_error_from_http_exception
+    raise cls(e, response=response, explanation=explanation) from e
+docker.errors.APIError: 400 Client Error for http+docker://localhost/v1.51/containers/create?name=task_process_pdf: Bad Request ("invalid mount config for type "bind": bind source path does not exist: /opt/airflow/documents")
+[2025-10-19T20:11:52.181+0000] {taskinstance.py:1138} INFO - Marking task as FAILED. dag_id=doc_reporter_pipeline, task_id=run_processing_service, execution_date=20251019T201147, start_date=20251019T201151, end_date=20251019T201152
+[2025-10-19T20:11:52.216+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 4 for task run_processing_service (400 Client Error for http+docker://localhost/v1.51/containers/create?name=task_process_pdf: Bad Request ("invalid mount config for type "bind": bind source path does not exist: /opt/airflow/documents"); 61)
+[2025-10-19T20:11:52.254+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2025-10-19T20:11:52.310+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   airflow-webserver:
     image: apache/airflow:2.8.1
@@ -9,10 +8,12 @@ services:
     volumes:
       - ./dags:/opt/airflow/dags
       - ./documents:/app/documents
-      - /var/run/docker.sock:/var/run/docker.sock # <-- Allows Airflow to talk to Docker
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./airflow-data:/opt/airflow
+      - ./.env:/opt/airflow/.env  # <-- ADD THIS LINE
     environment:
       - AIRFLOW__CORE__LOAD_EXAMPLES=false
-      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
     restart: always
 
   airflow-scheduler:
@@ -23,11 +24,9 @@ services:
       - ./dags:/opt/airflow/dags
       - ./documents:/app/documents
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./airflow-data:/opt/airflow
+      - ./.env:/opt/airflow/.env  # <-- AND ADD THIS LINE
     environment:
       - AIRFLOW__CORE__LOAD_EXAMPLES=false
-      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
     restart: always
-
-volumes:
-  dags:
-  documents:

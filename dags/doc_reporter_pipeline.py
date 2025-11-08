@@ -2,9 +2,10 @@ from airflow.models.dag import DAG
 from airflow.providers.docker.operators.docker import DockerOperator
 from datetime import datetime
 import os
+from docker.types import Mount  # <-- ADD THIS IMPORT
 
 # Get the host machine's current directory to mount volumes correctly
-HOST_DOCUMENTS_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'documents'))
+HOST_DOCUMENTS_DIR = 'C:/Users/saivi/OneDrive/Desktop/DocReporter/documents'
 HOST_ENV_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.env'))
 
 with DAG(
@@ -18,12 +19,14 @@ with DAG(
     # Task 1: Run the 'process-app' container
     task_process = DockerOperator(
         task_id='run_processing_service',
-        image='process-app:latest', # Assumes image is built locally
+        image='process-app:latest',
         container_name='task_process_pdf',
         command='python process_pdf.py /app/documents/input/sample.pdf /app/documents/output/vector_database.json',
-        mounts=[f'{HOST_DOCUMENTS_DIR}:/app/documents'],
+        # --- FIX IS HERE ---
+        mounts=[Mount(target='/app/documents', source=HOST_DOCUMENTS_DIR, type='bind')],
+        # -----------------
         auto_remove=True,
-        docker_url='unix://var/run/docker.sock', # Connects to Docker on host
+        docker_url='unix://var/run/docker.sock',
         network_mode='bridge'
     )
 
@@ -33,8 +36,10 @@ with DAG(
         image='analyst-app:latest',
         container_name='task_analyze_report',
         command='python analyst.py /app/documents/output/vector_database.json /app/documents/output/analyst_report.json',
-        mounts=[f'{HOST_DOCUMENTS_DIR}:/app/documents'],
-        env_file=HOST_ENV_FILE, # Pass the .env file
+        # --- FIX IS HERE ---
+        mounts=[Mount(target='/app/documents', source=HOST_DOCUMENTS_DIR, type='bind')],
+        # -----------------
+        env_file=HOST_ENV_FILE,
         auto_remove=True,
         docker_url='unix://var/run/docker.sock',
         network_mode='bridge'
@@ -46,7 +51,9 @@ with DAG(
         image='report-app:latest',
         container_name='task_generate_report',
         command='python generate_report.py /app/documents/output/analyst_report.json /app/documents/output/final_report.pdf',
-        mounts=[f'{HOST_DOCUMENTS_DIR}:/app/documents'],
+        # --- FIX IS HERE ---
+        mounts=[Mount(target='/app/documents', source=HOST_DOCUMENTS_DIR, type='bind')],
+        # -----------------
         auto_remove=True,
         docker_url='unix://var/run/docker.sock',
         network_mode='bridge'
